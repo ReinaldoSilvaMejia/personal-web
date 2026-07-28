@@ -12,6 +12,7 @@ export default function CarouselBlur({ items }: CarouselBlurProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState<1 | -1>(1);
   const isCooldown = useRef(false);
+  const wheelTimer = useRef<NodeJS.Timeout | null>(null);
 
   const touchStartX = useRef<number | null>(null);
 
@@ -43,8 +44,30 @@ export default function CarouselBlur({ items }: CarouselBlurProps) {
   };
 
   const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
-    if (e.deltaY > 0) goNext();
-    else if (e.deltaY < 0) goPrev();
+    const threshold = 20; 
+    if (Math.abs(e.deltaY) < threshold) return;
+
+    if (isCooldown.current) {
+      if (wheelTimer.current) clearTimeout(wheelTimer.current);
+      
+      wheelTimer.current = setTimeout(() => {
+        isCooldown.current = false;
+      }, 150);
+      return;
+    }
+
+    if (e.deltaY > 0) {
+      goNext();
+    } else if (e.deltaY < 0) {
+      goPrev();
+    }
+
+    isCooldown.current = true;
+    
+    if (wheelTimer.current) clearTimeout(wheelTimer.current);
+    wheelTimer.current = setTimeout(() => {
+      isCooldown.current = false;
+    }, 150);
   };
 
   const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
