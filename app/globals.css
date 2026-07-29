@@ -19,6 +19,26 @@
   }
 }
 
+@layer utilities {
+  /* Variante Clásica / Clara (usada en tus tarjetas) */
+  .glass-card {
+    background-color: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(20px) saturate(190%);
+    -webkit-backdrop-filter: blur(20px) saturate(190%);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+
+  /* Variante Cápsula / Sutil (usada en el indicador) */
+  .glass-pill {
+    background-color: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+  }
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
