@@ -16,7 +16,7 @@ const screens = [
 export default function Home() {
   return (
     <div className="w-screen h-dvh">
-      <CarouselBlur items={screens} />
+      <CarouselBlur items={screens} titles={['pagina 1', 'pagina 2', 'pagina 3']}/>
     </div>
   );
 }
