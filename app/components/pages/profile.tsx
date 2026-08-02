@@ -4,6 +4,7 @@ import { Box, Grid } from '@mui/material';
 import Image from 'next/image';
 import GlassCard from '../glass-card';
 import TypewriterComponent from 'typewriter-effect';
+import { Link } from '@mui/material';
 
 interface ProfileProps {
     hasTyped: boolean;
@@ -39,21 +40,77 @@ export default function Profile({ hasTyped, onFinishTyping }: ProfileProps) {
                 overflowY: 'auto',
             }}
         >
-            <Grid container spacing={6} sx={{ width: '100%', maxWidth: '1200px' }}>
+            <Grid container spacing={6} sx={{ width: '100%', height: '100%' }}>
                 {/* ==========================================
-    FILA SUPERIOR: Bio + Foto Polaroid
-   ========================================== */}
+                        FILA SUPERIOR: Bio + Foto Polaroid
+                    ========================================== */}
                 <Grid
                     container
                     spacing={6}
                     size={12}
                     sx={{ alignItems: 'stretch' }}
                 >
+
+                    {/* BLOQUE 2: Foto Estilo Polaroid (Derecha) */}
+                    <Grid size={{ xs: 12, md: 5, xl: 4 }} sx={{ display: 'flex' }}>
+                        <GlassCard
+                            intensity="light"
+                            sx={{
+                                p: 3,
+                                pb: 4,
+                                borderRadius: '16px',
+                                width: '100%',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                color: '#010100',
+                            }}
+                        >
+                            {/* Contenedor de la Imagen */}
+                            <Box
+                                sx={{
+                                    width: '100%',
+                                    maxWidth: '280px',
+                                    aspectRatio: { xs: '1/1', md: '9 / 13' },
+                                    position: 'relative',
+                                    borderRadius: '8px',
+                                    overflow: 'hidden',
+                                    margin: '0 auto',
+                                }}
+                            >
+                                <Image
+                                    src="/img/Profile.png"
+                                    alt="Reinaldo Silva"
+                                    fill
+                                    sizes="(max-width: 768px) 100vw, 280px"
+                                    style={{
+                                        objectFit: 'cover',
+                                        objectPosition: 'top',
+                                    }}
+                                    priority
+                                />
+                            </Box>
+
+                            {/* Pie de foto Polaroid */}
+                            <Box sx={{ mt: 2, textAlign: 'center', width: '100%' }}>
+                                <div className="font-bold text-lg">
+                                    Reinaldo Silva Mejía
+                                </div>
+                                <div className="text-sm opacity-80">
+                                    Ingeniero Informático
+                                </div>
+                            </Box>
+                        </GlassCard>
+                    </Grid>
+
                     {/* BLOQUE 1: Texto Biografía (Izquierda) */}
                     <Grid
                         size={{ xs: 12, md: 7, xl: 8 }}
                         sx={{
-                            position: { md: 'relative' } // 👈 Permite que el hijo use posicionamiento absoluto en escritorio
+                            position: { md: 'relative' },
+                            // En móvil le damos una altura fija para que la tarjeta ocupe su propio espacio
+                            height: { xs: '350px', md: 'auto' },
                         }}
                     >
                         <GlassCard
@@ -64,14 +121,13 @@ export default function Profile({ hasTyped, onFinishTyping }: ProfileProps) {
                                 color: '#010100',
                                 display: 'flex',
                                 flexDirection: 'column',
-                                // En md+ se posiciona absoluto para no forzar la altura de la fila
-                                position: { md: 'absolute' },
+                                // En escritorio se posiciona absoluto respecto a la Polaroid; en móvil es relativo
+                                position: { xs: 'relative', md: 'absolute' },
                                 top: 0,
                                 bottom: 0,
                                 left: 0,
                                 right: 0,
-                                // En móvil (xs) le damos una altura máxima razonable con scroll
-                                maxHeight: { xs: '400px', md: '100%' },
+                                height: '100%', // 👈 Ocupa el 100% de la altura de su Grid asignado
                             }}
                         >
                             {/* Contenedor del texto con Scrollbar interna */}
@@ -86,7 +142,7 @@ export default function Profile({ hasTyped, onFinishTyping }: ProfileProps) {
                                 }}
                                 sx={{
                                     flex: 1,
-                                    minHeight: 0, // 👈 Clave para que Flexbox aplique overflow correctamente
+                                    minHeight: 0,
                                     overflowY: 'auto',
                                     pr: 1,
 
@@ -143,59 +199,6 @@ export default function Profile({ hasTyped, onFinishTyping }: ProfileProps) {
                             </Box>
                         </GlassCard>
                     </Grid>
-
-                    {/* BLOQUE 2: Foto Estilo Polaroid (Derecha) */}
-                    <Grid size={{ xs: 12, md: 5, xl: 4 }} sx={{ display: 'flex' }}>
-                        <GlassCard
-                            intensity="light"
-                            sx={{
-                                p: 3,
-                                pb: 4,
-                                borderRadius: '16px',
-                                width: '100%',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                color: '#010100',
-                            }}
-                        >
-                            {/* Contenedor de la Imagen */}
-                            <Box
-                                sx={{
-                                    width: '100%',
-                                    maxWidth: '280px',
-                                    aspectRatio: '9 / 13',
-                                    position: 'relative',
-                                    borderRadius: '8px',
-                                    overflow: 'hidden',
-                                    margin: '0 auto',
-                                }}
-                            >
-                                <Image
-                                    src="/img/Profile.png"
-                                    alt="Reinaldo Silva"
-                                    fill
-                                    sizes="(max-width: 768px) 100vw, 280px"
-                                    style={{
-                                        objectFit: 'cover',
-                                        objectPosition: 'top',
-                                    }}
-                                    priority
-                                />
-                            </Box>
-
-                            {/* Pie de foto Polaroid */}
-                            <Box sx={{ mt: 2, textAlign: 'center', width: '100%' }}>
-                                <div className="font-bold text-lg">
-                                    Reinaldo Silva Mejía
-                                </div>
-                                <div className="text-sm opacity-80">
-                                    Ingeniero Informático
-                                </div>
-                            </Box>
-                        </GlassCard>
-                    </Grid>
                 </Grid>
 
                 {/* ==========================================
@@ -219,36 +222,67 @@ export default function Profile({ hasTyped, onFinishTyping }: ProfileProps) {
 
                         {/* Grid 2x2 para las Redes Sociales / Links */}
                         <Grid container spacing={3}>
+
                             {/* Opción 1: Profesional (LinkedIn) */}
                             <Grid size={{ xs: 12, sm: 6 }} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                <a href="https://www.linkedin.com/in/reinaldosilvamejia/" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                                <Link
+                                    href="https://www.linkedin.com/in/reinaldosilvamejia/"
+                                    underline="none"
+                                    color="inherit"
+                                    sx={{ display: 'flex', alignItems: 'center', gap: '12px' }}
+                                >
                                     <img src="/img/linkedin-icon.webp" width={50} height={50} alt="LinkedIn" />
                                     <span className="text-xl font-medium">Profesional</span>
-                                </a>
+                                </Link>
                             </Grid>
 
                             {/* Opción 2: Personal (Instagram) */}
                             <Grid size={{ xs: 12, sm: 6 }} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                <a href="https://www.instagram.com/reisilva24/" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                                <Link
+                                    href="https://www.instagram.com/reisilva24/"
+                                    underline="none"
+                                    color="inherit"
+                                    sx={{ display: 'flex', alignItems: 'center', gap: '12px' }}
+                                >
                                     <img src="/img/Instagram_icon.png" width={42} height={42} alt="Instagram" />
                                     <span className="text-xl font-medium">Personal</span>
-                                </a>
+                                </Link>
                             </Grid>
 
                             {/* Opción 3: Creativa (TikTok) */}
                             <Grid size={{ xs: 12, sm: 6 }} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                <a href="https://www.tiktok.com/@reisilva24" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                                <Link
+                                    href="https://www.tiktok.com/@reisilva24"
+                                    underline="none"
+                                    color="inherit"
+                                    sx={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '12px',
+                                        mr: { md: '28px' }
+                                    }}
+                                >
                                     <img src="/img/tik-tok-logo.webp" width={50} height={50} alt="TikTok" />
                                     <span className="text-xl font-medium">Creativa</span>
-                                </a>
+                                </Link>
                             </Grid>
 
                             {/* Opción 4: Directa (Email) */}
                             <Grid size={{ xs: 12, sm: 6 }} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                <a href="mailto:tu-email@dominio.com" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                                <Link
+                                    href="mailto:reinaldosilvamejia@hotmail.com"
+                                    underline="none"
+                                    color="inherit"
+                                    sx={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '12px',
+                                        mr: { md: '18px' }
+                                    }}
+                                >
                                     <img src="/img/email-icon.png" width={42} height={42} alt="Email" />
                                     <span className="text-xl font-medium">Directa</span>
-                                </a>
+                                </Link>
                             </Grid>
                         </Grid>
                     </GlassCard>
