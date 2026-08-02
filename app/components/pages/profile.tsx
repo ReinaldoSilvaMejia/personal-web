@@ -16,10 +16,10 @@ export default function Profile({ hasTyped, onFinishTyping }: ProfileProps) {
     const bioContent = (
         <div className="text-base leading-relaxed">
             <p>
-                ¡Hola! Soy Reinaldo, y como ingeniero me gusta entender cómo funcionan las cosas, <b>construir soluciones y convertir ideas en algo real</b>. Pero mi forma de crear no termina en el código.
+                ¡Hola! Soy Reinaldo, y como ingeniero me gusta entender cómo funcionan las cosas, <b>construir soluciones</b> y convertir ideas en algo real. Pero mi forma de crear no termina en el código.
                 <br /><br />La música, el deporte y los videojuegos ocupan un lugar importante en mi vida, y de cierta forma también me ayudan a desconectar.
-                <br /><br />También tengo mis pequeñas obsesiones: <b>relojes, buenos whiskys y una mesa bien servida.</b> Una buena carne, un gran vino y una conversación sin prisas.
-                <br /><br /> He creado esta web <b>con el fin de juntar y compartir mis diferentes facetas;</b> y por qué no, divertirme durante el proceso.
+                <br /><br />También tengo mis pequeñas obsesiones: relojes, buenos whiskys y una mesa bien servida. Una buena carne, un gran vino y una conversación sin prisas.
+                <br /><br /> He creado esta web con el fin de juntar y <b>compartir mis diferentes facetas;</b> y por qué no, divertirme durante el proceso.
             </p>
         </div>
     );
@@ -81,7 +81,7 @@ export default function Profile({ hasTyped, onFinishTyping }: ProfileProps) {
                             intensity="light"
                             sx={{
                                 p: 3,
-                                pb: 4,
+                                pb: 5,
                                 borderRadius: '16px',
                                 width: '100%',
                                 display: 'flex',
@@ -96,7 +96,7 @@ export default function Profile({ hasTyped, onFinishTyping }: ProfileProps) {
                                 sx={{
                                     width: '100%',
                                     maxWidth: '280px',
-                                    aspectRatio: { xs: '1/1', md: '9 / 13' },
+                                    aspectRatio: { xs: '1/1', md: '9 / 11' },
                                     position: 'relative',
                                     borderRadius: '8px',
                                     overflow: 'hidden',
@@ -133,7 +133,7 @@ export default function Profile({ hasTyped, onFinishTyping }: ProfileProps) {
                         size={{ xs: 12, md: 7, xl: 8 }}
                         sx={{
                             position: { md: 'relative' },
-                            height: { xs: '350px', md: 'auto' },
+                            height: { xs: '355px', md: 'auto' },
                         }}
                     >
                         <GlassCard
@@ -199,7 +199,7 @@ export default function Profile({ hasTyped, onFinishTyping }: ProfileProps) {
                                                 typewriter
                                                     .changeDelay(20)
                                                     .typeString(
-                                                        '¡Hola! Soy Reinaldo, y como ingeniero me gusta entender cómo funcionan las cosas,<b> construir soluciones y convertir ideas en algo real.</b> Pero mi forma de crear no termina en el código.'
+                                                        '¡Hola! Soy Reinaldo, y como ingeniero me gusta entender cómo funcionan las cosas, construir soluciones y <b>convertir ideas en algo real.</b> Pero mi forma de crear no termina en el código.'
                                                     )
                                                     .pauseFor(300)
                                                     .typeString(
@@ -207,11 +207,11 @@ export default function Profile({ hasTyped, onFinishTyping }: ProfileProps) {
                                                     )
                                                     .pauseFor(300)
                                                     .typeString(
-                                                        '<br/> <br/>También tengo mis pequeñas obsesiones: <b>relojes, buenos whiskys y una mesa bien servida.</b> Una buena carne, un gran vino y una conversación sin prisas.'
+                                                        '<br/> <br/>También tengo mis pequeñas obsesiones: relojes, buenos whiskys y una mesa bien servida. Una buena carne, un gran vino y una conversación sin prisas.'
                                                     )
                                                     .pauseFor(300)
                                                     .typeString(
-                                                        '<br/> <br/>He creado esta web <b>con el fin de juntar y compartir mis diferentes facetas;</b> y por qué no, divertirme durante el proceso.'
+                                                        '<br/> <br/>He creado esta web con el fin de juntar y <b>compartir mis diferentes facetas;</b> y por qué no, divertirme durante el proceso.'
                                                     )
                                                     .callFunction(() => {
                                                         onFinishTyping();
