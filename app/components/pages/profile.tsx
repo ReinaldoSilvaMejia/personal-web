@@ -5,7 +5,7 @@ import Image from 'next/image';
 import GlassCard from '../glass-card';
 import TypewriterComponent from 'typewriter-effect';
 import { Link } from '@mui/material';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 
 interface ProfileProps {
     hasTyped: boolean;

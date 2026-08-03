@@ -21,8 +21,8 @@ export default function Home() {
       hasTyped={hasTypedProfile}
       onFinishTyping={handleProfileTyped}
     />,
-    <Projects key="projects" />,
     <Career key="career" />,
+    <Projects key="projects" />,
   ];
 
   return (
