@@ -1,6 +1,9 @@
 import { useState } from 'react';
-import { Box, Grid, Typography, Chip, Paper } from '@mui/material';
+import { Box, Grid, Typography, Chip, Paper, IconButton } from '@mui/material';
 import GlassCard from '../glass-card';
+import React, { useRef } from 'react';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 // 1. Interfaz completa y dinámica
 interface Company {
@@ -21,28 +24,29 @@ export default function Career() {
       id: 'nextflow',
       name: 'The Next Flow',
       img: '/img/the_next_flow_sl_logo.jpg',
-      sector: 'Aerolíneas & Consultoría Tech',
+      sector: 'Aerolíneas',
       client: 'Iberojet / Ávoris',
       role: 'Team Lead & Senior Software Engineer',
       projects: [
-        'Automatización del proceso de nóminas para tripulación de vuelo de Iberojet.',
-        'Sistema de notificaciones automatizadas vía WhatsApp para pasajeros.'
+        'Motor de reservas para la unificación y control del sistema de reservas.',
+        'Unificación de sistemas de registros de vuelo para trazar la información de vuelo.',
+        'Sistema de notificaciones automatizadas vía WhatsApp para pasajeros.',
       ],
       tasks: [
-        'Coordinación y soporte técnico a un equipo de desarrolladores.',
-        'Asegurar la calidad del código y planificación estratégica de tareas.',
-        'Análisis de requisitos e implementación de soluciones end-to-end.'
+        'Coordinar y ofrecer soporte técnico a un equipo de desarrolladores.',
+        'Analizar, planificar y desarrollar aplicaciones para la optimización operativa de la aerolínea.',
+        'Apoyar a los analistas de los diferentes sistemas en las integraciones técnicas.'
       ]
     },
     {
       id: 'ue',
       name: 'Universidad Europea',
       img: '/img/universidad_europea_de_madrid_logo.jpg',
-      sector: 'Educación Superior / EdTech',
-      client: 'Máster Universitario en Dirección de Operaciones',
+      sector: 'Educativo',
+      client: '',
       role: 'Profesor de Máster',
       projects: [
-        'Docencia del módulo "Introducción a BPM" en el Máster de Operaciones.'
+        'Impartir el módulo "Introducción al Business Process Managment" en el Master Universitario en Dirección de Operaciones y Procesos Estratégicos.'
       ],
       tasks: [
         'Enseñar la metodología BPMN a los alumnos mediante casos prácticos.',
@@ -57,7 +61,7 @@ export default function Career() {
       client: 'Banco Santander',
       role: 'Senior Software Engineer',
       projects: [
-        'Getnet: Sistema de registro y procesador de pagos mediante TPV.'
+        'Sistema de registro y procesador de pagos mediante TPV. (Getnet)'
       ],
       tasks: [
         'Análisis técnico y desarrollo de microservicios transaccionales.',
@@ -70,7 +74,7 @@ export default function Career() {
       name: 'Sembo',
       img: '/img/sembo_travel_logo.jpg',
       sector: 'Travel Tech',
-      client: 'Stena Line Travel Group AB',
+      client: '',
       role: 'Full Stack Developer',
       projects: [
         'Integración de servicios de terceros mediante TravelGate.',
@@ -78,7 +82,8 @@ export default function Career() {
       ],
       tasks: [
         'Desarrollo de interfaces dinámicas en Vue.js para el motor de reservas.',
-        'Migración de código legacy a arquitecturas modernas en .NET Core.'
+        'Migración de código legacy a arquitecturas modernas en .NET Core.',
+        'Diseñar y mejorar los dashboards de Graphana para la monitorización.'
       ]
     },
     {
@@ -86,15 +91,16 @@ export default function Career() {
       name: 'Logitravel',
       img: '/img/logitravel_logo.jpg',
       sector: 'Turismo / E-commerce',
-      client: 'Logitravel Group',
+      client: 'Viajes el Corte Inglés',
       role: 'Core Software Engineer',
       projects: [
         'Automatización de campañas publicitarias integradas con Google Ads.',
-        'Juego "Wordle" personalizado para promocionar destinos en tendencia.'
+        'Desarrollo de juego Wordle personalizado para promocionar destinos en tendencia.'
       ],
       tasks: [
-        'Creación y activación automática de publicidad desde la intranet corporativa.',
-        'Mantenimiento y evolución de sistemas backend en VB .NET.'
+        'Mantenimiento y evolución de sistemas backend en VB .NET.',
+        'Soporte a los usuarios de las herramientas de la intranet.',
+        'Monitorización y control de excepciones mediante canales de hang outs.'
       ]
     },
     {
@@ -102,10 +108,10 @@ export default function Career() {
       name: 'WebBeds',
       img: '/img/webbeds_logo.jpg',
       sector: 'B2B Travel Distribution',
-      client: 'WebBeds Europe',
+      client: '',
       role: 'Software Engineer Intern',
       projects: [
-        'Contenedorización de microservicios para la red de distribución B2B.'
+        'Implementación de elastich search en búsquedas de disponibilidad.'
       ],
       tasks: [
         'Desarrollo de servicios API REST utilizando .NET Core.',
@@ -116,6 +122,19 @@ export default function Career() {
 
   const [selectedCompanyId, setSelectedCompanyId] = useState<string>(companies[0].id);
   const selectedCompany = companies.find((c) => c.id === selectedCompanyId) || companies[0];
+
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  // Función para desplazar horizontalmente con las flechas
+  const handleScroll = (direction: 'left' | 'right') => {
+    if (scrollContainerRef.current) {
+      const scrollAmount = 200; // Pixeles a desplazar por click
+      scrollContainerRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth',
+      });
+    }
+  };
 
   return (
     <Box
@@ -128,8 +147,10 @@ export default function Career() {
         alignItems: 'center',
         justifyContent: 'center',
         backgroundImage: 'url("/img/Background career.png")',
+        backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
+        overflowY: 'auto',
       }}
     >
       <Grid container spacing={6} sx={{ width: '100%', height: '100%' }}>
@@ -137,65 +158,144 @@ export default function Career() {
         {/* ======================================================== */}
         {/* 👈 COLUMNA IZQUIERDA: MENÚ DE EMPRESAS                   */}
         {/* ======================================================== */}
-        <Grid size={{ xs: 12, md: 5, lg: 4 }} >
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, height: '100%' }}>
-            {companies.map((company) => {
-              const isSelected = company.id === selectedCompanyId;
+        <Grid size={{ xs: 12, md: 3, lg: 4 }}>
+          {/* Contenedor relativo para posicionar las flechas en móviles */}
+          <Box sx={{ position: 'relative', width: '100%' }}>
 
-              return (
-                <GlassCard
-                  intensity="light"
-                  key={company.id}
-                  onClick={() => setSelectedCompanyId(company.id)}
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 2,
-                    minHeight: '72px',
-                    cursor: 'pointer',
-                    boxShadow: isSelected ? '0 8px 20px rgba(0,0,0,0.35)' : 'none',
-                    transition: 'all 0.25s ease',
-                    '&:hover': {
-                      transform: 'translateY(-2px)',
-                      background: 'rgba(255, 255, 255, 0.35)',
-                    },
-                  }}
-                >
-                  <Box
+            {/* ⬅️ Flecha Izquierda (Visible solo en pantallas pequeñas xs/sm) */}
+            <IconButton
+              onClick={() => handleScroll('left')}
+              sx={{
+                display: { xs: 'flex', md: 'none' },
+                position: 'absolute',
+                left: -12,
+                top: '50%',
+                transform: 'translateY(-50%)',
+                zIndex: 10,
+                backgroundColor: 'rgba(255, 255, 255, 0.7)',
+                backdropFilter: 'blur(4px)',
+                color: '#475569',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                width: 32,
+                height: 32,
+                '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.9)' },
+              }}
+            >
+              <ChevronLeftIcon fontSize="small" />
+            </IconButton>
+
+            {/* ➡️ Flecha Derecha (Visible solo en pantallas pequeñas xs/sm) */}
+            <IconButton
+              onClick={() => handleScroll('right')}
+              sx={{
+                display: { xs: 'flex', md: 'none' },
+                position: 'absolute',
+                right: -12,
+                top: '50%',
+                transform: 'translateY(-50%)',
+                zIndex: 10,
+                backgroundColor: 'rgba(255, 255, 255, 0.7)',
+                backdropFilter: 'blur(4px)',
+                color: '#475569',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                width: 32,
+                height: 32,
+                '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.9)' },
+              }}
+            >
+              <ChevronRightIcon fontSize="small" />
+            </IconButton>
+
+            {/* 📦 CONTENEDOR CARRUSEL DE EMPRESAS */}
+            <Box
+              ref={scrollContainerRef}
+              sx={{
+                display: 'flex',
+                flexDirection: { xs: 'row', md: 'column' },
+                gap: 2,
+                height: '100%',
+                width: '100%',
+                maxWidth: '100%',
+                // Manejo estricto del scroll horizontal
+                overflowX: { xs: 'auto', md: 'visible' },
+                overflowY: 'hidden',
+                scrollBehavior: 'smooth',
+                scrollbarWidth: 'none', // Firefox
+                paddingBottom: 1,
+                '&::-webkit-scrollbar': { display: 'none' }, // Chrome/Safari/Edge
+              }}
+            >
+              {companies.map((company) => {
+                const isSelected = company.id === selectedCompanyId;
+
+                return (
+                  <GlassCard
+                    intensity="light"
+                    key={company.id}
+                    onClick={() => setSelectedCompanyId(company.id)}
                     sx={{
-                      width: 44,
-                      height: 44,
-                      borderRadius: '50%',
-                      backgroundColor: '#FFFFFF',
+                      p: { xs: 1.5, md: 1.5, lg: 2 },
                       display: 'flex',
                       alignItems: 'center',
-                      justifyContent: 'center',
-                      overflow: 'hidden',
-                      flexShrink: 0,
-                      boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
+                      justifyContent: { xs: 'center', md: 'center', lg: 'flex-start' },
+                      gap: { xs: 1.5, md: 0, lg: 2 },
+                      minHeight: '72px',
+                      // Fijamos el tamaño mínimo en móvil para que no se aplasten los botones
+                      minWidth: { xs: '68px', md: 'auto' },
+                      flexShrink: 0, // Evita que las tarjetas se deformen en flex-row
+                      cursor: 'pointer',
+                      boxShadow: isSelected ? {xs:'none',  md: '0 8px 1px rgba(0,0,0,0.2)'} : 'none',
+                      transition: 'all 0.25s ease',
+                      '&:hover': {
+                        transform: 'translateY(-2px)',
+                        background: 'rgba(255, 255, 255, 0.35)',
+                      },
                     }}
                   >
-                    <img
-                      src={company.img}
-                      alt={company.name}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                    />
-                  </Box>
+                    <Box
+                      sx={{
+                        width: 44,
+                        height: 44,
+                        borderRadius: '50%',
+                        backgroundColor: '#FFFFFF',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        overflow: 'hidden',
+                        flexShrink: 0,
+                        boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
+                      }}
+                    >
+                      <img
+                        src={company.img}
+                        alt={company.name}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      />
+                    </Box>
 
-                  <Box sx={{ flex: 1, fontWeight: 600, color: '#1C1C1E', fontSize: '1rem' }}>
-                    {company.name}
-                  </Box>
-                </GlassCard>
-              );
-            })}
+                    {/* 📝 NOMBRE DE LA EMPRESA: Oculto en móviles y en md, solo visible en lg+ */}
+                    <Box
+                      sx={{
+                        flex: 1,
+                        fontWeight: 600,
+                        color: '#1C1C1E',
+                        fontSize: '1rem',
+                        display: { xs: 'none', md: 'none', lg: 'block' }
+                      }}
+                    >
+                      {company.name}
+                    </Box>
+                  </GlassCard>
+                );
+              })}
+            </Box>
           </Box>
         </Grid>
 
         {/* ======================================================== */}
         {/* 👉 COLUMNA DERECHA: FICHA DETALLADA MEJORADA             */}
         {/* ======================================================== */}
-        <Grid size={{ xs: 12, md: 7, lg: 8 }}>
+        <Grid size={{ xs: 12, md: 9, lg: 8 }}>
           <GlassCard
             intensity="light"
             sx={{
@@ -330,6 +430,7 @@ export default function Career() {
                         mb: idx === selectedCompany.projects.length - 1 ? 0 : 0.8,
                         fontSize: '0.95rem',
                         lineHeight: 1.5,
+                        paddingBottom: 1.5
                       }}
                     >
                       {proj}
@@ -371,6 +472,7 @@ export default function Career() {
                         mb: idx === selectedCompany.tasks.length - 1 ? 0 : 0.8,
                         fontSize: '0.95rem',
                         lineHeight: 1.5,
+                        paddingBottom: 1.5
                       }}
                     >
                       {task}
