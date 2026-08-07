@@ -57,9 +57,9 @@ export default function Profile({ hasTyped, onFinishTyping }: ProfileProps) {
     const handleConditionalScroll = (e: React.WheelEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
         const target = e.currentTarget;
         if (target.scrollHeight > target.clientHeight) {
-            return;
+            e.stopPropagation();
         }
-        e.stopPropagation();
+        return;
     };
 
     const [expanded, setExpanded] = useState(!isShortScreen);
@@ -241,7 +241,7 @@ export default function Profile({ hasTyped, onFinishTyping }: ProfileProps) {
                 {/* ==========================================
                     FILA INFERIOR: Conóceme de forma ...
                 ========================================== */}
-                <Grid size={{ xs: 12 }}>
+                <Grid size={{ xs: 12 }} sx={{paddingBottom: {xs: 10 , md:3}}}>
                     <GlassCard
                         intensity="light"
                         sx={{
@@ -253,12 +253,12 @@ export default function Profile({ hasTyped, onFinishTyping }: ProfileProps) {
                     >
                         {/* Cabecera interactiva */}
                         <Box
-                            onClick={toggleExpand}
+                            onClick={isShortScreen ? toggleExpand : () => {}}
                             sx={{
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'space-between',
-                                cursor: 'pointer',
+                                cursor: isShortScreen ? 'pointer' : 'default',
                                 userSelect: 'none',
                                 pb: expanded ? 2 : 0,
                                 transition: 'padding 0.25s ease',
