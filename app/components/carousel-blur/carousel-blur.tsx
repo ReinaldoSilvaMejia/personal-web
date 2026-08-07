@@ -92,7 +92,7 @@ export default function CarouselBlur({ items, titles }: CarouselBlurProps) {
 
     const touchEndX = e.changedTouches[0].clientX;
     const diffX = touchStartX.current - touchEndX;
-    const minSwipeDistance = 100;
+    const minSwipeDistance = 80;
 
     if (diffX > minSwipeDistance) {
       goNext();
