@@ -1,11 +1,12 @@
 'use client';
 
-import { Box, Grid } from '@mui/material';
+import { Box, Typography, Collapse, Grid, IconButton, useMediaQuery } from '@mui/material';
 import Image from 'next/image';
 import GlassCard from '../glass-card';
 import TypewriterComponent from 'typewriter-effect';
 import { Link } from '@mui/material';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 interface ProfileProps {
     hasTyped: boolean;
@@ -13,17 +14,19 @@ interface ProfileProps {
 }
 
 export default function Profile({ hasTyped, onFinishTyping }: ProfileProps) {
+    const isShortScreen = useMediaQuery('(max-height: 800px)');
+    const isShortenScreen = useMediaQuery('(max-height: 600px)');
     const bioContent = (
         <div className="text-base leading-relaxed">
             <p>
-                ¡Hola! Soy Reinaldo, y como ingeniero me gusta entender cómo funcionan las cosas, <b>construir soluciones</b> y convertir ideas en algo real. Pero mi forma de crear no termina en el código.
+                ¡Hola! Soy Reinaldo, y como ingeniero me gusta entender cómo funcionan las cosas, construir soluciones y <b>convertir ideas en algo real</b>. Pero mi forma de crear no termina en el código.
                 <br /><br />La música, el deporte y los videojuegos ocupan un lugar importante en mi vida, y de cierta forma también me ayudan a desconectar.
                 <br /><br />También tengo mis pequeñas obsesiones: relojes, buenos whiskys y una mesa bien servida. Una buena carne, un gran vino y una conversación sin prisas.
                 <br /><br /> He creado esta web con el fin de juntar y <b>compartir mis diferentes facetas;</b> y por qué no, divertirme durante el proceso.
             </p>
         </div>
     );
-    
+
     useEffect(() => {
         if (hasTyped) return;
 
@@ -46,6 +49,21 @@ export default function Profile({ hasTyped, onFinishTyping }: ProfileProps) {
 
         return () => observer.disconnect();
     }, [hasTyped]);
+
+    useEffect(() => {
+        setExpanded(!isShortScreen);
+    }, [isShortScreen]);
+
+    const handleConditionalScroll = (e: React.WheelEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
+        const target = e.currentTarget;
+        if (target.scrollHeight > target.clientHeight) {
+            return;
+        }
+        e.stopPropagation();
+    };
+
+    const [expanded, setExpanded] = useState(!isShortScreen);
+    const toggleExpand = () => setExpanded((prev) => !prev);
 
 
     return (
@@ -96,7 +114,7 @@ export default function Profile({ hasTyped, onFinishTyping }: ProfileProps) {
                                 sx={{
                                     width: '100%',
                                     maxWidth: '280px',
-                                    aspectRatio: { xs: '1/1', md: '9 / 11' },
+                                    aspectRatio: { xs: '1/1', md: isShortenScreen ? '5/4' : '9 / 11' },
                                     position: 'relative',
                                     borderRadius: '8px',
                                     overflow: 'hidden',
@@ -157,14 +175,8 @@ export default function Profile({ hasTyped, onFinishTyping }: ProfileProps) {
                             {/* Contenedor del texto con Scrollbar interna */}
                             <Box
                                 id="bio-scroll-container"
-                                onWheel={(e) => {
-                                    // Detiene la propagación para que el carrusel no cambie de pantalla
-                                    e.stopPropagation();
-                                }}
-                                onTouchMove={(e) => {
-                                    // Para pantallas táctiles / móviles
-                                    e.stopPropagation();
-                                }}
+                                onWheel={handleConditionalScroll}
+                                onTouchMove={handleConditionalScroll}
                                 sx={{
                                     flex: 1,
                                     minHeight: 0,
@@ -239,180 +251,212 @@ export default function Profile({ hasTyped, onFinishTyping }: ProfileProps) {
                             mb: { xs: 5, md: 0 }
                         }}
                     >
-                        {/* Título de la sección */}
-                        <Box sx={{ textAlign: 'center', mb: 4 }}>
-                            <h2 className="text-2xl font-bold tracking-tight">
-                                Conóceme de forma ...
-                            </h2>
-                            <p className="text-sm opacity-75 mt-1">
-                                Selecciona una faceta para conectar conmigo
-                            </p>
+                        {/* Cabecera interactiva */}
+                        <Box
+                            onClick={toggleExpand}
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                cursor: 'pointer',
+                                userSelect: 'none',
+                                pb: expanded ? 2 : 0,
+                                transition: 'padding 0.25s ease',
+                            }}
+                        >
+                            <Box sx={{ textAlign: 'center', flexGrow: 1 }}>
+                                <Typography variant="h5" component="h2" sx={{ fontWeight: 'bold', letterSpacing: '-0.025em' }}>
+                                    Conóceme de forma ...
+                                </Typography>
+                                <Typography variant="body2" sx={{ opacity: 0.75, mt: 0.5 }}>
+                                    Selecciona una faceta para conectar conmigo
+                                </Typography>
+                            </Box>
+
+                            <IconButton
+                                size="small"
+                                aria-expanded={expanded}
+                                aria-label="Mostrar más facetas"
+                                sx={{
+                                    ml: 1,
+                                    color: '#1C1C1E',
+                                    transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
+                                    transition: 'transform 0.3s ease',
+                                    display: isShortScreen ? 'auto' : 'none'
+                                }}
+                            >
+                                <KeyboardArrowDownIcon />
+                            </IconButton>
                         </Box>
 
-                        {/* Grid 2x2 de Tarjetas Interactivas */}
-                        <Grid container spacing={2.5}>
-                            {/* 1. Profesional (LinkedIn) */}
-                            <Grid size={{ xs: 12, sm: 6 }}>
-                                <Link
-                                    href="https://www.linkedin.com/in/reinaldosilvamejia/"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    underline="none"
-                                    sx={{ display: 'block' }}
-                                >
-                                    <Box
-                                        sx={{
-                                            p: 2.5,
-                                            borderRadius: '16px',
-                                            background: 'rgba(255, 255, 255, 0.35)',
-                                            backdropFilter: 'blur(8px)',
-                                            border: '1px solid rgba(255, 255, 255, 0.4)',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'space-between',
-                                            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                                            '&:hover': {
-                                                transform: 'translateY(-4px)',
-                                                background: 'rgba(0, 119, 181, 0.08)', // Tono azul LinkedIn sutil
-                                                borderColor: 'rgba(0, 119, 181, 0.3)',
-                                                boxShadow: '0 10px 20px -5px rgba(0, 119, 181, 0.15)',
-                                                '& .arrow-icon': { transform: 'translateX(4px)' }
-                                            }
-                                        }}
-                                    >
-                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                                            <img src="/img/linkedin-icon.webp" width={44} height={44} alt="LinkedIn" />
-                                            <Box>
-                                                <div className="text-lg font-bold text-gray-900 leading-tight">Profesional</div>
-                                                <div className="text-xs text-gray-600 font-normal">Experiencia y proyectos en LinkedIn</div>
-                                            </Box>
-                                        </Box>
-                                        <span className="arrow-icon text-gray-400 font-bold transition-transform duration-300">→</span>
-                                    </Box>
-                                </Link>
-                            </Grid>
+                        {/* Contenido desplegable */}
+                        <Collapse in={expanded} timeout="auto" unmountOnExit={false}>
+                            <Grid container spacing={2.5}>
 
-                            {/* 2. Personal (Instagram) */}
-                            <Grid size={{ xs: 12, sm: 6 }}>
-                                <Link
-                                    href="https://www.instagram.com/reisilva24/"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    underline="none"
-                                    sx={{ display: 'block' }}
-                                >
-                                    <Box
-                                        sx={{
-                                            p: 2.5,
-                                            borderRadius: '16px',
-                                            background: 'rgba(255, 255, 255, 0.35)',
-                                            backdropFilter: 'blur(8px)',
-                                            border: '1px solid rgba(255, 255, 255, 0.4)',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'space-between',
-                                            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                                            '&:hover': {
-                                                transform: 'translateY(-4px)',
-                                                background: 'rgba(225, 48, 108, 0.08)', // Tono rosa Instagram sutil
-                                                borderColor: 'rgba(225, 48, 108, 0.3)',
-                                                boxShadow: '0 10px 20px -5px rgba(225, 48, 108, 0.15)',
-                                                '& .arrow-icon': { transform: 'translateX(4px)' }
-                                            }
-                                        }}
+                                {/* 1. Profesional (LinkedIn) */}
+                                <Grid size={{ xs: 12, sm: 6 }}>
+                                    <Link
+                                        href="https://www.linkedin.com/in/reinaldosilvamejia/"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        underline="none"
+                                        sx={{ display: 'block' }}
                                     >
-                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                                            <img src="/img/Instagram_icon.png" width={40} height={40} alt="Instagram" />
-                                            <Box>
-                                                <div className="text-lg font-bold text-gray-900 leading-tight">Personal</div>
-                                                <div className="text-xs text-gray-600 font-normal">Mi día a día y aficiones</div>
+                                        <Box
+                                            sx={{
+                                                p: 2.5,
+                                                borderRadius: '16px',
+                                                background: 'rgba(255, 255, 255, 0.35)',
+                                                backdropFilter: 'blur(8px)',
+                                                border: '1px solid rgba(255, 255, 255, 0.4)',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'space-between',
+                                                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                                '&:hover': {
+                                                    transform: 'translateY(-4px)',
+                                                    background: 'rgba(0, 119, 181, 0.08)', // Tono azul LinkedIn sutil
+                                                    borderColor: 'rgba(0, 119, 181, 0.3)',
+                                                    boxShadow: '0 10px 20px -5px rgba(0, 119, 181, 0.15)',
+                                                    '& .arrow-icon': { transform: 'translateX(4px)' }
+                                                }
+                                            }}
+                                        >
+                                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                                                <img src="/img/linkedin-icon.webp" width={44} height={44} alt="LinkedIn" />
+                                                <Box>
+                                                    <div className="text-lg font-bold text-gray-900 leading-tight">Profesional</div>
+                                                    <div className="text-xs text-gray-600 font-normal">Experiencia y proyectos en LinkedIn</div>
+                                                </Box>
                                             </Box>
+                                            <span className="arrow-icon text-gray-400 font-bold transition-transform duration-300">→</span>
                                         </Box>
-                                        <span className="arrow-icon text-gray-400 font-bold transition-transform duration-300">→</span>
-                                    </Box>
-                                </Link>
-                            </Grid>
+                                    </Link>
+                                </Grid>
 
-                            {/* 3. Creativa (TikTok) */}
-                            <Grid size={{ xs: 12, sm: 6 }}>
-                                <Link
-                                    href="https://www.tiktok.com/@reisilva24"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    underline="none"
-                                    sx={{ display: 'block' }}
-                                >
-                                    <Box
-                                        sx={{
-                                            p: 2.5,
-                                            borderRadius: '16px',
-                                            background: 'rgba(255, 255, 255, 0.35)',
-                                            backdropFilter: 'blur(8px)',
-                                            border: '1px solid rgba(255, 255, 255, 0.4)',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'space-between',
-                                            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                                            '&:hover': {
-                                                transform: 'translateY(-4px)',
-                                                background: 'rgba(0, 0, 0, 0.06)', // Tono TikTok sutil
-                                                borderColor: 'rgba(0, 0, 0, 0.2)',
-                                                boxShadow: '0 10px 20px -5px rgba(0, 0, 0, 0.12)',
-                                                '& .arrow-icon': { transform: 'translateX(4px)' }
-                                            }
-                                        }}
+                                {/* 2. Personal (Instagram) */}
+                                <Grid size={{ xs: 12, sm: 6 }}>
+                                    <Link
+                                        href="https://www.instagram.com/reisilva24/"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        underline="none"
+                                        sx={{ display: 'block' }}
                                     >
-                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                                            <img src="/img/tik-tok-logo.webp" width={44} height={44} alt="TikTok" />
-                                            <Box>
-                                                <div className="text-lg font-bold text-gray-900 leading-tight">Creativa</div>
-                                                <div className="text-xs text-gray-600 font-normal">Contenido en video y experimentos</div>
+                                        <Box
+                                            sx={{
+                                                p: 2.5,
+                                                borderRadius: '16px',
+                                                background: 'rgba(255, 255, 255, 0.35)',
+                                                backdropFilter: 'blur(8px)',
+                                                border: '1px solid rgba(255, 255, 255, 0.4)',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'space-between',
+                                                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                                '&:hover': {
+                                                    transform: 'translateY(-4px)',
+                                                    background: 'rgba(225, 48, 108, 0.08)', // Tono rosa Instagram sutil
+                                                    borderColor: 'rgba(225, 48, 108, 0.3)',
+                                                    boxShadow: '0 10px 20px -5px rgba(225, 48, 108, 0.15)',
+                                                    '& .arrow-icon': { transform: 'translateX(4px)' }
+                                                }
+                                            }}
+                                        >
+                                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                                                <img src="/img/Instagram_icon.png" width={40} height={40} alt="Instagram" />
+                                                <Box>
+                                                    <div className="text-lg font-bold text-gray-900 leading-tight">Personal</div>
+                                                    <div className="text-xs text-gray-600 font-normal">Mi día a día y aficiones</div>
+                                                </Box>
                                             </Box>
+                                            <span className="arrow-icon text-gray-400 font-bold transition-transform duration-300">→</span>
                                         </Box>
-                                        <span className="arrow-icon text-gray-400 font-bold transition-transform duration-300">→</span>
-                                    </Box>
-                                </Link>
-                            </Grid>
+                                    </Link>
+                                </Grid>
 
-                            {/* 4. Directa (Email) */}
-                            <Grid size={{ xs: 12, sm: 6 }}>
-                                <Link
-                                    href="mailto:reinaldosilvamejia@hotmail.com"
-                                    underline="none"
-                                    sx={{ display: 'block' }}
-                                >
-                                    <Box
-                                        sx={{
-                                            p: 2.5,
-                                            borderRadius: '16px',
-                                            background: 'rgba(255, 255, 255, 0.35)',
-                                            backdropFilter: 'blur(8px)',
-                                            border: '1px solid rgba(255, 255, 255, 0.4)',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'space-between',
-                                            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                                            '&:hover': {
-                                                transform: 'translateY(-4px)',
-                                                background: 'rgba(24, 119, 242, 0.08)', // Tono azul Email sutil
-                                                borderColor: 'rgba(24, 119, 242, 0.3)',
-                                                boxShadow: '0 10px 20px -5px rgba(24, 119, 242, 0.15)',
-                                                '& .arrow-icon': { transform: 'translateX(4px)' }
-                                            }
-                                        }}
+                                {/* 3. Creativa (TikTok) */}
+                                <Grid size={{ xs: 12, sm: 6 }}>
+                                    <Link
+                                        href="https://www.tiktok.com/@reisilva24"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        underline="none"
+                                        sx={{ display: 'block' }}
                                     >
-                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                                            <img src="/img/email-icon.png" width={40} height={40} alt="Email" />
-                                            <Box>
-                                                <div className="text-lg font-bold text-gray-900 leading-tight">Directa</div>
-                                                <div className="text-xs text-gray-600 font-normal">Contacto directo vía e-mail</div>
+                                        <Box
+                                            sx={{
+                                                p: 2.5,
+                                                borderRadius: '16px',
+                                                background: 'rgba(255, 255, 255, 0.35)',
+                                                backdropFilter: 'blur(8px)',
+                                                border: '1px solid rgba(255, 255, 255, 0.4)',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'space-between',
+                                                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                                '&:hover': {
+                                                    transform: 'translateY(-4px)',
+                                                    background: 'rgba(0, 0, 0, 0.06)', // Tono TikTok sutil
+                                                    borderColor: 'rgba(0, 0, 0, 0.2)',
+                                                    boxShadow: '0 10px 20px -5px rgba(0, 0, 0, 0.12)',
+                                                    '& .arrow-icon': { transform: 'translateX(4px)' }
+                                                }
+                                            }}
+                                        >
+                                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                                                <img src="/img/tik-tok-logo.webp" width={44} height={44} alt="TikTok" />
+                                                <Box>
+                                                    <div className="text-lg font-bold text-gray-900 leading-tight">Creativa</div>
+                                                    <div className="text-xs text-gray-600 font-normal">Contenido en video y experimentos</div>
+                                                </Box>
                                             </Box>
+                                            <span className="arrow-icon text-gray-400 font-bold transition-transform duration-300">→</span>
                                         </Box>
-                                        <span className="arrow-icon text-gray-400 font-bold transition-transform duration-300">→</span>
-                                    </Box>
-                                </Link>
+                                    </Link>
+                                </Grid>
+
+                                {/* 4. Directa (Email) */}
+                                <Grid size={{ xs: 12, sm: 6 }}>
+                                    <Link
+                                        href="mailto:reinaldosilvamejia@hotmail.com"
+                                        underline="none"
+                                        sx={{ display: 'block' }}
+                                    >
+                                        <Box
+                                            sx={{
+                                                p: 2.5,
+                                                borderRadius: '16px',
+                                                background: 'rgba(255, 255, 255, 0.35)',
+                                                backdropFilter: 'blur(8px)',
+                                                border: '1px solid rgba(255, 255, 255, 0.4)',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'space-between',
+                                                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                                '&:hover': {
+                                                    transform: 'translateY(-4px)',
+                                                    background: 'rgba(24, 119, 242, 0.08)', // Tono azul Email sutil
+                                                    borderColor: 'rgba(24, 119, 242, 0.3)',
+                                                    boxShadow: '0 10px 20px -5px rgba(24, 119, 242, 0.15)',
+                                                    '& .arrow-icon': { transform: 'translateX(4px)' }
+                                                }
+                                            }}
+                                        >
+                                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                                                <img src="/img/email-icon.png" width={40} height={40} alt="Email" />
+                                                <Box>
+                                                    <div className="text-lg font-bold text-gray-900 leading-tight">Directa</div>
+                                                    <div className="text-xs text-gray-600 font-normal">Contacto directo vía e-mail</div>
+                                                </Box>
+                                            </Box>
+                                            <span className="arrow-icon text-gray-400 font-bold transition-transform duration-300">→</span>
+                                        </Box>
+                                    </Link>
+                                </Grid>
+
                             </Grid>
-                        </Grid>
+                        </Collapse>
                     </GlassCard>
                 </Grid>
             </Grid>

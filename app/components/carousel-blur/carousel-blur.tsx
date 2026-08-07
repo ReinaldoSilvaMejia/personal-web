@@ -72,11 +72,23 @@ export default function CarouselBlur({ items, titles }: CarouselBlurProps) {
   };
 
   const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    const target = e.target as HTMLElement;
+    if (target.closest('.no-carousel-swipe')) {
+      touchStartX.current = null;
+      return;
+    }
+
     touchStartX.current = e.touches[0].clientX;
   };
 
   const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
     if (touchStartX.current === null) return;
+
+    const target = e.target as HTMLElement;
+    if (target.closest('.no-carousel-swipe')) {
+      touchStartX.current = null;
+      return;
+    }
 
     const touchEndX = e.changedTouches[0].clientX;
     const diffX = touchStartX.current - touchEndX;

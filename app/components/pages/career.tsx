@@ -128,7 +128,7 @@ export default function Career() {
   // Función para desplazar horizontalmente con las flechas
   const handleScroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
-      const scrollAmount = 200; // Pixeles a desplazar por click
+      const scrollAmount = 120; // Pixeles a desplazar por click
       scrollContainerRef.current.scrollBy({
         left: direction === 'left' ? -scrollAmount : scrollAmount,
         behavior: 'smooth',
@@ -209,6 +209,7 @@ export default function Career() {
             {/* 📦 CONTENEDOR CARRUSEL DE EMPRESAS */}
             <Box
               ref={scrollContainerRef}
+              className="no-carousel-swipe"
               sx={{
                 display: 'flex',
                 flexDirection: { xs: 'row', md: 'column' },
@@ -295,7 +296,7 @@ export default function Career() {
         {/* ======================================================== */}
         {/* 👉 COLUMNA DERECHA: FICHA DETALLADA MEJORADA             */}
         {/* ======================================================== */}
-        <Grid size={{ xs: 12, md: 9, lg: 8 }}>
+        <Grid size={{ xs: 12, md: 9, lg: 8 }} sx={{paddingBottom: {xs: 10 , md:3}}}>
           <GlassCard
             intensity="light"
             sx={{
@@ -394,7 +395,7 @@ export default function Career() {
                 display: 'flex',
                 flexDirection: 'column',
                 gap: 2.5,
-                animation: 'fadeIn 0.5s ease-in-out',
+                animation: 'fadeIn 0.5s ease-in-out'
               }}
             >
               {/* Bloque 1: Proyectos */}
