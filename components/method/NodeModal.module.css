@@ -1,0 +1,80 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 200;
+}
+
+.panel {
+  position: relative;
+  background: var(--superficie);
+  border: 1px solid var(--linea);
+  border-radius: 22px;
+  padding: clamp(24px, 4vw, 40px);
+  max-width: 560px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--base);
+  border: 1px solid var(--linea);
+  border-radius: 50%;
+  color: var(--texto);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.close:hover {
+  border-color: var(--linea-fuerte);
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--base);
+  font-size: 1.5rem;
+  margin-bottom: 16px;
+}
+
+.title {
+  font-family: var(--font-serif), Georgia, serif;
+  font-weight: 600;
+  font-size: 1.4rem;
+  margin: 0 0 16px;
+  color: var(--texto);
+  padding-right: 30px;
+}
+
+.body p {
+  margin: 0 0 14px;
+  color: var(--gris);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.body p:last-child {
+  margin-bottom: 0;
+}
+
+.body strong {
+  color: var(--texto);
+}

@@ -1,33 +1,19 @@
-'use client';
-import { useState } from "react";
-import CarouselBlur from "./components/carousel-blur/carousel-blur";
-import Career from "./components/pages/career";
-import Profile from "./components/pages/profile";
-import Projects from "./components/pages/projects";
-
-
+import { SiteHeader } from "@/components/layout/SiteHeader";
+import { Hero } from "@/components/hero/Hero";
+import { MethodSection } from "@/components/method/MethodSection";
+import { CareerSection } from "@/components/career/CareerSection";
+import { ConnectSection } from "@/components/connect/ConnectSection";
 
 export default function Home() {
-
-  const [hasTypedProfile, setHasTypedProfile] = useState(false);
-
-  const handleProfileTyped = () => {
-    setHasTypedProfile(true);
-  };
-
-  const screens = [
-    <Profile
-      key="profile"
-      hasTyped={hasTypedProfile}
-      onFinishTyping={handleProfileTyped}
-    />,
-    <Career key="career" />,
-    <Projects key="projects" />,
-  ];
-
   return (
-    <div className="w-screen h-dvh">
-      <CarouselBlur items={screens} titles={['Perfil', 'Trayectoria', 'Proyectos']} />
-    </div>
+    <>
+      <SiteHeader />
+      <main className="pt-[73px] max-[640px]:pt-[89px]">
+        <Hero />
+        <MethodSection />
+        <CareerSection />
+        <ConnectSection />
+      </main>
+    </>
   );
 }

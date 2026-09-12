@@ -1,0 +1,147 @@
+.graphWrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 8px;
+}
+
+.graphWrap svg {
+  display: block;
+  width: 100%;
+  min-width: 640px;
+  height: auto;
+}
+
+.edge {
+  stroke: var(--linea-fuerte);
+  stroke-width: 1.5;
+  fill: none;
+}
+
+.node {
+  cursor: grab;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.circle {
+  stroke-width: 1.5;
+  transition:
+    fill 0.2s ease,
+    stroke 0.2s ease;
+}
+
+/* Locked (not opened yet): flat grey, like an unavailable level. */
+.locked .circle {
+  fill: var(--nodo-bloqueado);
+  stroke: var(--nodo-bloqueado);
+}
+
+/* Unlocked (already opened): full accent color, like a cleared level. */
+.visited .circle {
+  fill: var(--acento);
+  stroke: var(--acento);
+}
+
+/* Alternate unlocked nodes to the "main" brand color, same pair the pills use. */
+.visited.variantMain .circle {
+  fill: var(--main);
+  stroke: var(--main);
+}
+
+.ring {
+  fill: none;
+  stroke: var(--linea-fuerte);
+  stroke-width: 2.5;
+  transition:
+    stroke 0.2s ease,
+    stroke-width 0.2s ease;
+}
+
+.node text {
+  font-weight: 700;
+  font-size: 15px;
+  text-anchor: middle;
+  pointer-events: none;
+  transition: fill 0.2s ease;
+}
+
+.locked text {
+  fill: var(--gris);
+}
+
+.visited text {
+  fill: var(--sobre-acento);
+}
+
+.visited.variantMain text {
+  fill: var(--texto);
+}
+
+/* Lock / check badge, bottom-right of each node */
+.badgeRing {
+  fill: var(--base);
+}
+
+.badgeCircleLocked {
+  fill: var(--nodo-visitado);
+}
+
+.badgeCircleVisited {
+  fill: var(--acento);
+}
+
+.variantMain .badgeCircleVisited {
+  fill: var(--main);
+}
+
+.badgeIconLocked {
+  fill: none;
+  stroke: var(--base);
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.badgeIconLockedBody {
+  fill: var(--base);
+}
+
+.badgeIconVisited {
+  fill: none;
+  stroke: var(--sobre-acento);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.variantMain .badgeIconVisited {
+  stroke: var(--texto);
+}
+
+.node:hover .circle,
+.node:focus-visible .circle {
+  fill: var(--acento);
+  stroke: var(--acento);
+}
+
+.node:hover .ring,
+.node:focus-visible .ring {
+  stroke: var(--acento);
+  stroke-width: 3.5;
+}
+
+.node:hover text,
+.node:focus-visible text {
+  fill: var(--sobre-acento);
+}
+
+.node:focus-visible {
+  outline: none;
+}
+
+.hint {
+  margin: 18px 0 0;
+  font-size: 0.88rem;
+  color: var(--gris);
+}
