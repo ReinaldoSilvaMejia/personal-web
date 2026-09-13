@@ -28,6 +28,31 @@ export function NodeModal({
     return () => document.removeEventListener("keydown", handleKey);
   }, [nodeId, onClose]);
 
+  useEffect(() => {
+    if (!nodeId) return;
+    const scrollY = window.scrollY;
+    const { body } = document;
+    const original = {
+      position: body.style.position,
+      top: body.style.top,
+      width: body.style.width,
+      overflow: body.style.overflow,
+    };
+
+    body.style.position = "fixed";
+    body.style.top = `-${scrollY}px`;
+    body.style.width = "100%";
+    body.style.overflow = "hidden";
+
+    return () => {
+      body.style.position = original.position;
+      body.style.top = original.top;
+      body.style.width = original.width;
+      body.style.overflow = original.overflow;
+      window.scrollTo({ top: scrollY, left: 0, behavior: "instant" });
+    };
+  }, [nodeId]);
+
   if (!nodeId) return null;
 
   const content = nodeContent[nodeId];
