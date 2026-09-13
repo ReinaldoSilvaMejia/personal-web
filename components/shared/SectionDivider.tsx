@@ -4,7 +4,7 @@ import { Wrap } from "./Wrap";
 export function SectionDivider() {
   return (
     <Wrap>
-      <div className="h-0 border-t border-gris" />
+      <div className="h-0 border-t border-gris mb-10 max-[640px]:mb-7" />
     </Wrap>
   );
 }
