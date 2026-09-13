@@ -19,6 +19,7 @@ const karla = Karla({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://reinaldosilva.dev"),
   title: "Reinaldo Silva Mejía",
   description:
     "Ingeniero informático especializado en optimización de procesos — travel tech, fintech y aerolíneas.",
