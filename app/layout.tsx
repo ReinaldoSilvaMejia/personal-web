@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Bitter, Karla } from "next/font/google";
+import Script from "next/script";
 import { LanguageProvider } from "@/components/providers/LanguageProvider";
 import { ThemeProvider, noFlashThemeScript } from "@/components/providers/ThemeProvider";
 import "./globals.css";
@@ -44,6 +45,12 @@ export default function RootLayout({
         <ThemeProvider>
           <LanguageProvider>{children}</LanguageProvider>
         </ThemeProvider>
+        <Script
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          type="module"
+          data-cf-beacon='{"token": "dffc7963770e45989aef73eac922fed2"}'
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
