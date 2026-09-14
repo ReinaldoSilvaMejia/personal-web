@@ -1,4 +1,5 @@
 import { SiteHeader } from "@/components/layout/SiteHeader";
+import { SiteFooter } from "@/components/layout/SiteFooter";
 import { Hero } from "@/components/hero/Hero";
 import { MethodSection } from "@/components/method/MethodSection";
 import { CareerSection } from "@/components/career/CareerSection";
@@ -14,6 +15,7 @@ export default function Home() {
         <CareerSection />
         <ConnectSection />
       </main>
+      <SiteFooter />
     </>
   );
 }
