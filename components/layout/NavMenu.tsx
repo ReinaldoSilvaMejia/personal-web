@@ -5,10 +5,10 @@ import { Wrap } from "@/components/shared/Wrap";
 import type { Bilingual } from "@/lib/i18n";
 
 const LINKS: { href: string; label: Bilingual }[] = [
-  { href: "#top", label: { es: "Inicio", en: "Home" } },
-  { href: "#method", label: { es: "Metodología", en: "Methodology" } },
-  { href: "#career", label: { es: "Trayectoria", en: "Career" } },
-  { href: "#connect", label: { es: "Contacto", en: "Contact" } },
+  { href: "/#top", label: { es: "Inicio", en: "Home" } },
+  { href: "/#method", label: { es: "Metodología", en: "Methodology" } },
+  { href: "/#career", label: { es: "Trayectoria", en: "Career" } },
+  { href: "/#connect", label: { es: "Contacto", en: "Contact" } },
 ];
 
 export function NavMenu({
